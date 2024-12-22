@@ -24,6 +24,7 @@ public:
     void set_box_size(const sf::Vector2f& boxSize);
 
     void set_position(const sf::Vector2f& position);
+    void set_scale(const sf::Vector2f& scale);
     void set_rotation(float angle);
 
 public:
@@ -35,6 +36,9 @@ public:
 
     auto get_position() const -> sf::Vector2f;
     auto get_global_position() const -> sf::Vector2f;
+
+    auto get_scale() const -> sf::Vector2f;
+    auto get_global_scale() const -> sf::Vector2f;
 
     auto get_rotation() const -> float;
     auto get_global_rotation() const -> float;
@@ -60,6 +64,7 @@ protected:
     sf::Vector2f m_pivot{0.0f, 0.0f};
 
     sf::Vector2f m_localPosition{0.0f, 0.0f};
+    sf::Vector2f m_localScale{1.0f, 1.0f};
     float m_localRotation{0.0f};
 
     TransformationMatrix m_transformationMatrix;

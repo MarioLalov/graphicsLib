@@ -11,8 +11,6 @@ void Node::set_parent(const std::shared_ptr<Node> node)
     m_parent = node;
     m_parent->add_child(shared_from_this());
 
-    // m_transformationMatrix = m_parent->m_transformationMatrix;
-    // m_transformationMatrix.addTranslation(m_parent->m_localPosition);
     m_transformationMatrix = m_parent->builTransformationMatrix();
 }
 
@@ -28,6 +26,7 @@ auto Node::builTransformationMatrix() const -> TransformationMatrix
 
     // add position translation
     result.addTranslation(m_localPosition);
+    result.addScale(m_localScale);  
     result.addRotation(m_localRotation*(M_PI/180));
 
     return result;
@@ -49,7 +48,8 @@ void Node::updateTransformation(const TransformationMatrix& transformationToAppl
     auto updatedTransformation = m_transformationMatrix;
 
     // add postiion translation
-    updatedTransformation.addTranslation(m_localPosition);  
+    updatedTransformation.addTranslation(m_localPosition);
+    updatedTransformation.addScale(m_localScale);  
     updatedTransformation.addRotation(m_localRotation*(M_PI/180));
 
     // update for all children
@@ -62,6 +62,12 @@ void Node::updateTransformation(const TransformationMatrix& transformationToAppl
 void Node::set_position(const sf::Vector2f& position)
 {
     m_localPosition = position;
+    updateTransformation(m_transformationMatrix);
+}
+
+void Node::set_scale(const sf::Vector2f& scale)
+{
+    m_localScale = scale;
     updateTransformation(m_transformationMatrix);
 }
 
@@ -105,6 +111,16 @@ auto Node::get_position() const -> sf::Vector2f
 auto Node::get_global_position() const -> sf::Vector2f
 {
     return m_transformationMatrix*m_localPosition;
+}
+
+auto Node::get_scale() const -> sf::Vector2f
+{
+    return m_localScale;
+}
+
+auto Node::get_global_scale() const -> sf::Vector2f
+{
+    return m_transformationMatrix*m_localScale;
 }
 
 auto Node::get_rotation() const -> float

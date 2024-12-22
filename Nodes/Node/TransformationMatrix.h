@@ -14,6 +14,9 @@ public:
     void addTranslation(const sf::Vector2f& translation);
     void removeTranslation(const sf::Vector2f& translation);
 
+    void addScale(const sf::Vector2f& scale);
+    void removeScale(const sf::Vector2f& scale);
+
     void addRotation(float angle);
     void removeRotation(float angle);
 

@@ -5,9 +5,9 @@
 // (d e f) (m n o) = (dj+em dk+en dl+oe+f)
 // (0 0 1) (0 0 1)   (0     0           1)
 
-static auto roundFloat(float f) -> float
+static auto roundFloat(float f, uint16_t decimalPoint = 7) -> float
 {
-    static constexpr auto ROUNDING_BASE = 1000000.0f;
+    static auto ROUNDING_BASE = std::pow(10.0f, decimalPoint);
     return std::round(f*ROUNDING_BASE) / ROUNDING_BASE;
 }
 
@@ -26,7 +26,6 @@ auto TransformationMatrix::operator*(const TransformationMatrix& rhs) const -> T
             for (size_t k = 0; k < 2; k++) 
             {
                 result.m_matrix[i][j] += roundFloat(lhs.m_matrix[i][k] * rhs.m_matrix[k][j]);
-                // result.m_matrix[i][j] += lhs.m_matrix[i][k] * rhs.m_matrix[k][j];
             }
         }
     }
@@ -65,6 +64,24 @@ void TransformationMatrix::removeTranslation(const sf::Vector2f& translation)
     this->m_matrix[1][2] -= translation.y;
 }
 
+void TransformationMatrix::addScale(const sf::Vector2f& scale)
+{
+    TransformationMatrix scalation;
+    scalation.m_matrix[0][0] = scale.x;
+    scalation.m_matrix[1][1] = scale.y;
+
+    m_matrix = (scalation*(*this)).m_matrix;
+}
+
+void TransformationMatrix::removeScale(const sf::Vector2f& scale)
+{
+    TransformationMatrix deScalation;
+    deScalation.m_matrix[0][0] = (1.0f/scale.x);
+    deScalation.m_matrix[1][1] = (1.0f/scale.y);
+
+    m_matrix = (deScalation*(*this)).m_matrix;
+}
+
 void TransformationMatrix::addRotation(float angle)
 {
     TransformationMatrix rotation;
@@ -96,14 +113,17 @@ auto TransformationMatrix::getRotation() const -> float
 {
     const auto& v = (*this)*sf::Vector2f(1, 0);
 
+    float angle;
     if(v.x == 0)
     {
-        return (v.y > 0 ? 1 : -1) * M_PI/2;
+        angle = (v.y > 0 ? 1 : -1) * M_PI/2;
     }
     else
     {
-        return std::atan(v.y/v.x);
+        angle = std::atan(v.y/v.x);
     }
+
+    return roundFloat(angle);
 }
 
 void TransformationMatrix::print() const
