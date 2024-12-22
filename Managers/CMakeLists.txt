@@ -5,10 +5,12 @@ target_sources(Managers
     ${CMAKE_CURRENT_LIST_DIR}/DrawManager/DrawManager.cpp
     ${CMAKE_CURRENT_LIST_DIR}/RssManager/RssManager.cpp
     ${CMAKE_CURRENT_LIST_DIR}/FactoryManager/FactoryManager.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/SceneManager/SceneManager.cpp
   PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/DrawManager/DrawManager.h
     ${CMAKE_CURRENT_LIST_DIR}/RssManager/RssManager.h
     ${CMAKE_CURRENT_LIST_DIR}/FactoryManager/FactoryManager.h
+    ${CMAKE_CURRENT_LIST_DIR}/SceneManager/SceneManager.h
   )
   
 find_package(SFML 2.5 COMPONENTS graphics REQUIRED)

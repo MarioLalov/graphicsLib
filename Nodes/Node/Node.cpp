@@ -11,7 +11,7 @@ void Node::set_parent(const std::shared_ptr<Node> node)
     m_parent = node;
     m_parent->add_child(shared_from_this());
 
-    m_transformationMatrix = m_parent->builTransformationMatrix();
+    updateTransformation(m_parent->builTransformationMatrix());
 }
 
 void Node::add_child(const std::shared_ptr<Node> node)
@@ -19,7 +19,7 @@ void Node::add_child(const std::shared_ptr<Node> node)
     //TODO: check if node is already present
     m_children.push_back(node);
 }
-
+//TODO: remove const
 auto Node::builTransformationMatrix() const -> TransformationMatrix
 {
     auto result = m_transformationMatrix;

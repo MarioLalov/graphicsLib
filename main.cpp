@@ -1,32 +1,36 @@
 #include <nlohmann/json.hpp>
 #include "Nodes/Node/Node.h"
-#include "Managers/FactoryManager/FactoryManager.h"
 #include "Managers/DrawManager/DrawManager.h"
+#include "Managers/SceneManager/SceneManager.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Test window");
     // sf::CircleShape shape(100.f);
     // shape.setFillColor(sf::Color::Green);
-    std::vector<std::string> vec = {"/Users/mariolalov/repos/graphicsLib/Testfiles/test.json"};
+    std::vector<std::string> vec1 = {"/Users/mariolalov/repos/graphicsLib/Testfiles/rssTest.json"};
+    std::vector<std::string> vec2 = {"/Users/mariolalov/repos/graphicsLib/Testfiles/sceneTest.json"};
 
     RssManager rssMgr;
-    rssMgr.Load(vec);
+    rssMgr.Load(vec1);
 
     FactoryManager factoryMgr(rssMgr);
-    auto root = factoryMgr.CreateNode("ROOT");
+    SceneManager sceneMgr(factoryMgr);
+    sceneMgr.Load(vec2);
 
-    auto sprite1 = factoryMgr.CreateSprite("Sprite1", "Sprite1_rss");
-    auto sprite2 = factoryMgr.CreateSprite("Sprite2", "Sprite2_rss");
-    auto sprite3 = factoryMgr.CreateSprite("Sprite3", "Sprite3_rss");
+    // auto root = factoryMgr.CreateNode("ROOT");
 
-    sprite1->set_parent(root);
-    sprite2->set_parent(root);
-    sprite3->set_parent(sprite2);
+    // auto sprite1 = factoryMgr.CreateSprite("Sprite1", "Sprite1_rss");
+    // auto sprite2 = factoryMgr.CreateSprite("Sprite2", "Sprite2_rss");
+    // auto sprite3 = factoryMgr.CreateSprite("Sprite3", "Sprite3_rss");
 
-    root->set_rotation(30);
-    sprite2->set_rotation(60);
-    sprite3->set_rotation(34);
+    // sprite1->set_parent(root);
+    // sprite2->set_parent(root);
+    // sprite3->set_parent(sprite2);
+
+    // root->set_rotation(30);
+    // sprite2->set_rotation(60);
+    // sprite3->set_rotation(34);
 
     // sprite2->set_position({300, 400});
 
@@ -44,7 +48,7 @@ int main()
         }
 
         window.clear();
-        drawMgr.Draw(root, window);
+        drawMgr.Draw(sceneMgr.GetRootNode(), window);
         window.display();
     }
 

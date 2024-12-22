@@ -3,8 +3,15 @@
 auto Sprite::get_drawable_object() const -> std::shared_ptr<sf::Drawable>
 {
     auto ptr =  std::make_shared<sf::Sprite>(m_sprite);
+
     const auto& globalPos = get_global_position();
     ptr->setPosition(globalPos.x, globalPos.y);
+
+    const auto& globalRotation = get_global_rotation();
+    ptr->setRotation(globalRotation);
+
+    const auto& globalScale = get_global_scale();
+    ptr->setScale(globalScale.x, globalScale.y);
 
     return ptr;
 }
