@@ -7,6 +7,12 @@
 
 using node_ptr = std::shared_ptr<Node>;
 
+static auto roundFloat(float f, uint16_t decimalPoint = 7) -> float
+{
+    static auto ROUNDING_BASE = std::pow(10.0f, decimalPoint);
+    return std::round(f*ROUNDING_BASE) / ROUNDING_BASE;
+}
+
 TEST_CASE("Node transformations") {
     RssManager rssMgr;
     FactoryManager factoryMgr(rssMgr);
@@ -48,27 +54,46 @@ TEST_CASE("Node transformations") {
 	}
 
     SECTION("Sequential rotation setting") {
-        std::cout << "Rotate Root" << std::endl;
         root->set_rotation(30);
-        std::cout << "Rotate lvl1ch1" << std::endl;
         lvl1ch1->set_rotation(60);
-        std::cout << "Rotate lvl2ch1" << std::endl;
         lvl2ch1->set_rotation(34);
 
-		REQUIRE(lvl1ch1->get_global_rotation() == 90);
+		REQUIRE(roundFloat(lvl1ch1->get_global_rotation(), 1) == 90);
         
-        REQUIRE(lvl2ch1->get_global_rotation() == 124);
+        REQUIRE(roundFloat(lvl2ch1->get_global_rotation(), 1) == 124);
 	}
 
-    // SECTION("Non-sequential rotation setting") {
-    //     lvl1ch1->set_position({30, 10});
-    //     lvl2ch1->set_position({6, 7});
-    //     root->set_position({50, 20});
+    SECTION("Non-sequential rotation setting") {
+        lvl1ch1->set_rotation(60);
+        lvl2ch1->set_rotation(34);
+        root->set_rotation(30);
 
-	// 	REQUIRE(lvl1ch1->get_global_position().x == 80);
-    //     REQUIRE(lvl1ch1->get_global_position().y == 30);
+		REQUIRE(roundFloat(lvl1ch1->get_global_rotation(), 1) == 90);
+        
+        REQUIRE(roundFloat(lvl2ch1->get_global_rotation(), 1) == 124);
+	}
 
-    //     REQUIRE(lvl2ch1->get_global_position().x == 86);
-    //     REQUIRE(lvl2ch1->get_global_position().y == 37);
-	// }
+    SECTION("Sequential scale setting") {
+        root->set_scale({2.0f, 2.0f});
+        lvl1ch1->set_scale({1.5f, 1.7f});
+        lvl2ch1->set_scale({0.33f, 0.2941f});
+
+		REQUIRE(roundFloat(lvl1ch1->get_global_scale().x, 1) == 3.0f);
+        REQUIRE(roundFloat(lvl1ch1->get_global_scale().y, 1) == 3.4f);
+
+        REQUIRE(roundFloat(lvl2ch1->get_global_scale().x, 1) == 1.0f);
+        REQUIRE(roundFloat(lvl2ch1->get_global_scale().y, 1) == 1.0f);   
+	}
+
+    SECTION("Non-sequential scale setting") {
+        lvl1ch1->set_scale({1.5f, 1.7f});
+        lvl2ch1->set_scale({0.33f, 0.2941f});
+        root->set_scale({2.0f, 2.0f});
+
+		REQUIRE(roundFloat(lvl1ch1->get_global_scale().x, 1) == 3.0f);
+        REQUIRE(roundFloat(lvl1ch1->get_global_scale().y, 1) == 3.4f);
+
+        REQUIRE(roundFloat(lvl2ch1->get_global_scale().x, 1) == 1.0f);
+        REQUIRE(roundFloat(lvl2ch1->get_global_scale().y, 1) == 1.0f);   
+	}
 }
