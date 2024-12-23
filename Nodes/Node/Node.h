@@ -21,7 +21,7 @@ public:
 public:
     void set_pivot(const sf::Vector2f& pivot);
     void set_visibility(bool visibility);
-    void set_box_size(const sf::Vector2f& boxSize);
+    void set_box_size(const sf::Vector2u& boxSize);
 
     void set_position(const sf::Vector2f& position);
     void set_scale(const sf::Vector2f& scale);
@@ -43,7 +43,7 @@ public:
     auto get_rotation() const -> float;
     auto get_global_rotation() const -> float;
 
-    auto get_box_size() const -> sf::Vector2f;
+    auto get_box_size() const -> sf::Vector2u;
     auto get_pivot() const -> sf::Vector2f;
     auto is_visible() const -> bool;
 
@@ -59,7 +59,7 @@ private:
 protected:
     bool m_visibility = true;
 
-    sf::Vector2f m_boxSize{0.0f, 0.0f};
+    sf::Vector2u m_boxSize{0, 0};
 
     sf::Vector2f m_pivot{0.0f, 0.0f};
 

@@ -75,13 +75,7 @@ void Node::set_rotation(float angle)
 
 void Node::set_pivot(const sf::Vector2f& pivot)
 {
-    // return to 0.0 pivot position
-    // m_transformationMatrix.removeTranslation({-m_pivot.x*m_boxSize.x, -m_pivot.y*m_boxSize.y});
-
     m_pivot = pivot;
-
-    // apply new pivot positon
-    // m_transformationMatrix.addTranslation({-m_pivot.x*m_boxSize.x, -m_pivot.y*m_boxSize.y});
 }
 
 void Node::set_visibility(bool visibility)
@@ -89,7 +83,7 @@ void Node::set_visibility(bool visibility)
     m_visibility = visibility;
 }
 
-void Node::set_box_size(const sf::Vector2f& boxSize)
+void Node::set_box_size(const sf::Vector2u& boxSize)
 {
     m_boxSize = boxSize;
 }
@@ -129,7 +123,7 @@ auto Node::get_global_rotation() const -> float
     return (m_transformationMatrix.getRotation()*(180/M_PI)) + m_localRotation;
 }
 
-auto Node::get_box_size() const -> sf::Vector2f
+auto Node::get_box_size() const -> sf::Vector2u
 {
     return m_boxSize;
 }

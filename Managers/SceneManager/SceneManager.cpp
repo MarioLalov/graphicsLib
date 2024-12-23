@@ -9,6 +9,7 @@ namespace
     constexpr auto POSITION = "position";
     constexpr auto ROTATION = "rotation";
     constexpr auto SCALE = "scale";
+    constexpr auto PIVOT = "pivot";
     constexpr auto CHILDREN = "children";
 
     namespace SpriteProperites
@@ -88,6 +89,13 @@ void SceneManager::_buildNode(const nlohmann::json& jsonObject, std::shared_ptr<
         //TODO: add checks for invalid format
         const auto& scale = jsonObject[SCALE];
         node->set_scale({scale[0], scale[1]});
+    }
+
+    if(jsonObject.contains(PIVOT))
+    {
+        //TODO: add checks for invalid format
+        const auto& pivot = jsonObject[PIVOT];
+        node->set_pivot({pivot[0], pivot[1]});
     }
 
     if(jsonObject.contains(CHILDREN))
