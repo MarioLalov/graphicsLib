@@ -39,9 +39,23 @@ void SceneManager::Load(std::vector<std::string>& filesToLoadFrom)
     }
 }
 
-auto SceneManager::GetRootNode() -> std::shared_ptr<Node>
+auto SceneManager::GetCurrentRoot() -> std::shared_ptr<Node>
 {
-    return m_loadedScenes["Root"];
+    return *m_curentSelectedScene;
+}
+
+bool SceneManager::SelectScene(const std::string& sceneName)
+{
+    try
+    {
+        m_curentSelectedScene = &m_loadedScenes.at(sceneName);
+    }
+    catch(const std::out_of_range&)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void SceneManager::_loadRootNode(const nlohmann::json& jsonObject)

@@ -10,7 +10,10 @@ public:
 
 public:
     void Load(std::vector<std::string>& filesToLoadFrom);
-    auto GetRootNode() -> std::shared_ptr<Node>;
+
+public:
+    auto GetCurrentRoot() -> std::shared_ptr<Node>;
+    bool SelectScene(const std::string& sceneName);
 
 private:
     void _loadRootNode(const nlohmann::json& jsonObject);
@@ -20,7 +23,8 @@ private:
 
 private:
     std::map<std::string, std::shared_ptr<Node>> m_loadedScenes{};
-    std::string m_currentSelectedScene{};
+
+    std::shared_ptr<Node>* m_curentSelectedScene = nullptr;
 
     const FactoryManager& m_factoryManager;
 };

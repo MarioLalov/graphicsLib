@@ -34,11 +34,7 @@ auto Node::builTransformationMatrix() const -> TransformationMatrix
 
 void Node::updateTransformation(const TransformationMatrix& transformationToApply)
 {
-    // TODO: remove from callback to fix possible multicalls
     m_transformationMatrix = transformationToApply;
-    std::cout << m_name << std::endl;
-    m_transformationMatrix.print();
-    std::cout << "------------------------" << std::endl << std::endl;
 
     if(m_children.empty())
     {

@@ -18,6 +18,8 @@ int main()
     SceneManager sceneMgr(factoryMgr);
     sceneMgr.Load(vec2);
 
+    sceneMgr.SelectScene("Root");
+
     // auto root = factoryMgr.CreateNode("ROOT");
 
     // auto sprite1 = factoryMgr.CreateSprite("Sprite1", "Sprite1_rss");
@@ -48,7 +50,7 @@ int main()
         }
 
         window.clear();
-        drawMgr.Draw(sceneMgr.GetRootNode(), window);
+        drawMgr.Draw(sceneMgr.GetCurrentRoot(), window);
         window.display();
     }
 
